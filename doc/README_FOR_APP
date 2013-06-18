@@ -1,0 +1,7 @@
+The CMS service is a RESTful API service, speaking JSON.
+
+It's the interface to the new Content Management System.
+
+For more info, see the media wiki.
+
+This line is only in the staging version, to force a new revision (dev pipeline testing)
