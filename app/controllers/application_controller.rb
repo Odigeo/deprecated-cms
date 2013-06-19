@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   # Authorization
   #
   def authorize_action
-    return true if ENV['NO_SOA_AUTH']
+    return true if ENV['NO_OCEAN_AUTH']
     # Obtain any nonstandard actions
     @@extra_actions[controller_name] ||= begin
       extra_actions
