@@ -16,8 +16,8 @@ describe DictionariesController do
     create(:text, app: "webapp_tab_1", context: "checkout", name: "baz", locale: "sv-SE", result: "En liten baz")
     create(:text, app: "lastminute_hotels", context: "payment", name: "fubar", locale: "sv-SE", result: "En liten fubar")
     create(:text, app: "lastminute_hotels", context: "payment", name: "mozz", locale: "sv-SE", result: "En liten mozz")
-    request.env['HTTP_ACCEPT'] = "application/json"
-    request.env['X-API-Token'] = "9876543werdfghuygfc"
+    request.headers['HTTP_ACCEPT'] = "application/json"
+    request.headers['X-API-Token'] = "9876543werdfghuygfc"
   end
   
   

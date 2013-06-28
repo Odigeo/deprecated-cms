@@ -9,8 +9,8 @@ describe TextsController do
     before :each do
       Api.stub!(:permitted?).and_return(double(:status => 200, 
                                                :body => {'authentication' => {'user_id' => 123}}))
-      request.env['HTTP_ACCEPT'] = "application/json"
-      request.env['X-API-Token'] = "incredibly-fake!"
+      request.headers['HTTP_ACCEPT'] = "application/json"
+      request.headers['X-API-Token'] = "incredibly-fake!"
       @args = {app: "the_app", context: "the_context", locale: "sv-SE", name: "the_name",
                mime_type: "mime/type"}
     end
@@ -22,13 +22,13 @@ describe TextsController do
     end
     
     it "should return a 400 if the X-API-Token header is missing" do
-      request.env['X-API-Token'] = nil
+      request.headers['X-API-Token'] = nil
       post :create, @args
       response.status.should == 400
     end
     
     it "should return a 400 if the authentication represented by the X-API-Token can't be found" do
-      request.env['X-API-Token'] = 'unknown, matey'
+      request.headers['X-API-Token'] = 'unknown, matey'
       Api.stub!(:permitted?).and_return(double(:status => 400, :body => {:_api_error => []}))
       post :create, @args
       response.status.should == 400
