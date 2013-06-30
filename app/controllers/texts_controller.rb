@@ -5,7 +5,7 @@ class TextsController < ApplicationController
 
   respond_to :json
   
-  before_filter :find_text, :only => [:show, :update, :destroy]
+  before_action :find_text, :only => [:show, :update, :destroy]
   
 
  
