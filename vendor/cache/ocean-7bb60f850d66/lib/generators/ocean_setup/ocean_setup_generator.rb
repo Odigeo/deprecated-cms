@@ -9,7 +9,7 @@ class OceanSetupGenerator < Rails::Generators::NamedBase
     remove_file "#{Rails.root}/config/locales"
     remove_file "#{Rails.root}/public"
     remove_file "#{Rails.root}/config/initializers/session_store.rb"
-    remove_file "#{Rails.root}/config/initializers/secret_token.rb"
+    #remove_file "#{Rails.root}/config/initializers/secret_token.rb"
     remove_file "#{Rails.root}/test"
     remove_file "#{Rails.root}/vendor/assets"
     remove_file "#{Rails.root}/vendor/plugins"
@@ -95,7 +95,7 @@ class OceanSetupGenerator < Rails::Generators::NamedBase
 
   def specify_gems
     add_source 'http://rubygems.org'
-    gem 'rails', '3.2.13'
+    gem 'rails', '4.0.0'
     gem "ocean", git: "git://github.com/OceanDev/ocean.git"
     gem 'mysql2'
     gem 'foreigner'
@@ -109,6 +109,9 @@ class OceanSetupGenerator < Rails::Generators::NamedBase
       gem 'immigrant'
       gem 'annotate', ">=2.5.0"
     end
+    gem "protected_attributes"
+    gem "rails-observers"
+
   end
 
   def setup_git

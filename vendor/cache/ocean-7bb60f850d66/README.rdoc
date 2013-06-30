@@ -1,10 +1,21 @@
 = Ocean
 
-Ocean is an architecture for creating agile server oriented architectures (SOAs).
+Ocean is an architecture for creating server-oriented architectures (SOAs) featuring a full
+separation of back and front end functionality. It consists of two separate parts which can be
+used separately or in conjunction: "Ocean" is the back end part, and "OceanFront" is the
+front end.
+
 Ocean is a complete and very scalable solution for RESTful web services and web applications,
 featuring aggressive caching and full HTTP client abstraction. Ocean fully implements
 HATEOAS principles, allowing the programming object model to move fully out onto the 'net,
 while maintaining a very high degree of decoupling of server and client.
+
+OceanFront is a cross-platform Javascript front end browser client library supporting all
+major browsers and platforms.
+
+Together, Ocean and OceanFront allow you to write front end code completely independent of browser
+type and client OS, and back end code completely agnostic of whether it is called by a client 
+browser or another server system.
 
 Ocean is also a development, staging and deployment pipeline featuring continuous integration and
 testing in a TDD and/or BDD environment. Ocean can be used for continuous deployment or for 
@@ -21,10 +32,6 @@ geared toward deploying the entire architecture on Amazon Web Services.
 
 Common services, such as Auth, CMS, Media, and Log, also have their own repositories.
 
-Please also refer to OceanFront, the cross-platform Javascript front end browser client library.
-Together, Ocean and OceanFront allow you to write front end code completely independent of browser
-type and client OS, and back end code completely agnostic of whether it is called by a client 
-browser or another server system.
 
 
 == The Ocean gem
@@ -32,7 +39,7 @@ browser or another server system.
 This repository contains the Ocean ruby gem, containing common framework functionality
 for the Ruby on Rails part of the architecture. 
 
-Ocean requires Ruby 2.0 and Ruby on Rails 3.2.13 or later.
+Ocean requires Ruby 2.0 and Ruby on Rails 4.0.0 or later.
 
 
 === Creating an Ocean Rails app
