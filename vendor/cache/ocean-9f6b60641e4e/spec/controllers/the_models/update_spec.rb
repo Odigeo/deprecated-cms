@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe TextsController do
+describe TheModelsController do
   
   render_views
-  
+
   describe "PUT" do
     
     before :each do
@@ -11,10 +11,11 @@ describe TextsController do
                                                :body => {'authentication' => {'user_id' => 123}}))
       request.headers['HTTP_ACCEPT'] = "application/json"
       request.headers['X-API-Token'] = "incredibly-fake!"
-      @u = create :text, result: "foo"
+      @u = create :the_model
       @args = @u.attributes
     end
-    
+
+
     it "should return JSON" do
       put :update, @args
       response.content_type.should == "application/json"
@@ -53,17 +54,8 @@ describe TextsController do
       response.content_type.should == "application/json"
     end
 
-    it "should return a 422 when there are validation errors" do
-      @args = @args.merge(:locale => "nix-DORF")
-      put :update, id: @u.id
-      response.status.should == 422
-      response.content_type.should == "application/json"
-      JSON.parse(response.body).should == {"_api_error"=>["Missing resource attributes"]}
-    end
-
-
     it "should return a 409 when there is an update conflict" do
-      @u.update_attributes!({:updated_at => 1.week.from_now}, :without_protection => true)
+      @u.update_attributes!({updated_at: 1.week.from_now}, :without_protection => true)
       put :update, @args
       response.status.should == 409
     end
@@ -71,11 +63,7 @@ describe TextsController do
     it "should return a 200 when successful" do
       put :update, @args
       response.status.should == 200
-    end
-
-    it "should render the object partial when successful" do
-      put :update, @args
-      response.should render_template(partial: '_text', count: 1)
+      response.should render_template(partial: "_the_model", count: 1)
     end
 
     it "should return the updated resource in the body when successful" do
@@ -84,18 +72,26 @@ describe TextsController do
       JSON.parse(response.body).should be_a Hash
     end
 
-    it "should alter the user when successful" do
-      @u.markdown.should == false
-      put :update, @args.merge("markdown" => true)
-      response.status.should == 200
-      j = JSON.parse(response.body)
-      j['text']['markdown'].should == true
-      j['text']['html'].should == "<p>foo</p>\n"
-      @u.reload
-      @u.markdown.should == true
-      @u.html.should == "<p>foo</p>\n"
+    it "should return a 422 when there are validation errors" do
+      put :update, @args.merge('name' => "qz")
+      response.status.should == 422
+      response.content_type.should == "application/json"
+      JSON.parse(response.body).should == {"name"=>["is too short (minimum is 3 characters)"]}
     end
-    
+
+
+    it "should alter the user when successful" do
+      @u.name.should == @args['name']
+      @u.description.should == @args['description']
+      @args['name'] = "zalagadoola"
+      @args['description'] = "menchikaboola"
+      put :update, @args
+      response.status.should == 200
+      @u.reload
+      @u.name.should == "zalagadoola"
+      @u.description.should == "menchikaboola"
+    end
+
   end
   
 end

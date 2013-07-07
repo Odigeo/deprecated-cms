@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TextsController do
+describe TheModelsController do
   
   render_views
   
@@ -11,8 +11,7 @@ describe TextsController do
                                                :body => {'authentication' => {'user_id' => 123}}))
       request.headers['HTTP_ACCEPT'] = "application/json"
       request.headers['X-API-Token'] = "incredibly-fake!"
-      @args = {app: "the_app", context: "the_context", locale: "sv-SE", name: "the_name",
-               mime_type: "mime/type"}
+      @args = build(:the_model).attributes
     end
     
     
@@ -35,39 +34,34 @@ describe TextsController do
       response.content_type.should == "application/json"
     end
 
-    it "should return a 403 if the X-API-Token doesn't yield POST authorisation for Texts" do
+    it "should return a 403 if the X-API-Token doesn't yield POST authorisation for TheModels" do
       Api.stub(:permitted?).and_return(double(:status => 403, :body => {:_api_error => []}))
       post :create, @args
       response.status.should == 403
       response.content_type.should == "application/json"
     end
 
-    it "should return a 422 if the text already exists" do
+    it "should return a 422 if the the_model already exists" do
       post :create, @args
       response.status.should == 201
       response.content_type.should == "application/json"
       post :create, @args
       response.status.should == 422
       response.content_type.should == "application/json"
-      JSON.parse(response.body).should == {"_api_error" => ["Text already exists"]}
+      JSON.parse(response.body).should == {"_api_error" => ["TheModel already exists"]}
     end
 
     it "should return a 422 when there are validation errors" do
-      post :create, @args.merge(:locale => "nix-DORF")
+      post :create, @args.merge('name' => "qz")
       response.status.should == 422
       response.content_type.should == "application/json"
-      JSON.parse(response.body).should == {"locale"=>["ISO language code format required ('de-AU')"]}
+      JSON.parse(response.body).should == {"name"=>["is too short (minimum is 3 characters)"]}
     end
                 
     it "should return a 201 when successful" do
       post :create, @args
+      response.should render_template(partial: "_the_model", count: 1)
       response.status.should == 201
-      response.should render_template(partial: '_text', count: 1)
-    end
-
-    it "should render the object partial when successful" do
-      post :create, @args
-      response.should render_template(partial: '_text', count: 1)
     end
 
     it "should contain a Location header when successful" do
@@ -78,13 +72,6 @@ describe TextsController do
     it "should return the new resource in the body when successful" do
       post :create, @args
       response.body.should be_a String
-    end
-    
-    it "should return converted markdown in the html attribute when appropriate" do
-      post :create, @args.merge(markdown: true, result: "foo")
-      j = JSON.parse(response.body)
-      j['text']['markdown'].should == true
-      j['text']['html'].should == "<p>foo</p>\n"
     end
     
   end

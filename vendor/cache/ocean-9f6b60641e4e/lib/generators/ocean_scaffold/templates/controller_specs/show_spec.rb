@@ -1,26 +1,28 @@
 require 'spec_helper'
 
-describe TextsController do
+describe <%= class_name.pluralize %>Controller do
   
+  render_views
+
   describe "GET" do
     
     before :each do
       Api.stub(:permitted?).and_return(double(:status => 200, 
                                                :body => {'authentication' => {'user_id' => 123}}))
-      @text = create :text
+      @<%= singular_name %> = create :<%= singular_name %>
       request.headers['HTTP_ACCEPT'] = "application/json"
       request.headers['X-API-Token'] = "totally-fake"
     end
-    
+
     
     it "should return JSON" do
-      get :show, id: @text
+      get :show, id: @<%= singular_name %>
       response.content_type.should == "application/json"
     end
     
     it "should return a 400 if the X-API-Token header is missing" do
       request.headers['X-API-Token'] = nil
-      get :show, id: @text
+      get :show, id: @<%= singular_name %>
       response.status.should == 400
       response.content_type.should == "application/json"
     end
@@ -28,14 +30,14 @@ describe TextsController do
     it "should return a 400 if the authentication represented by the X-API-Token can't be found" do
       request.headers['X-API-Token'] = 'unknown, matey'
       Api.stub(:permitted?).and_return(double(:status => 400, :body => {:_api_error => []}))
-      get :show, id: @text
+      get :show, id: @<%= singular_name %>
       response.status.should == 400
       response.content_type.should == "application/json"
     end
 
-    it "should return a 403 if the X-API-Token doesn't yield GET authorisation for Texts" do
+    it "should return a 403 if the X-API-Token doesn't yield GET authorisation for <%= class_name %>s" do
       Api.stub(:permitted?).and_return(double(:status => 403, :body => {:_api_error => []}))
-      get :show, id: @text
+      get :show, id: @<%= singular_name %>
       response.status.should == 403
       response.content_type.should == "application/json"
     end
@@ -47,13 +49,9 @@ describe TextsController do
     end
     
     it "should return a 200 when successful" do
-      get :show, id: @text
+      get :show, id: @<%= singular_name %>
       response.status.should == 200
-    end
-
-    it "should render the object partial when successful" do
-      get :show, id: @text
-      response.should render_template(partial: '_text', count: 1)
+      response.should render_template(partial: "_<%= singular_name %>", count: 1)
     end
     
   end
