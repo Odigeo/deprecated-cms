@@ -22,7 +22,10 @@
 class Text < ActiveRecord::Base
 
   ocean_resource_model index: [:app, :context, :name, :locale],
-                       search: :result
+                       search: :result,
+                       invalidate_member: ['/', '$', '?', 
+                                           lambda { |m| "dictionaries/app/#{m.app}/locale/#{m.locale}$" },
+                                           lambda { |m| "dictionaries/app/#{m.app}/locale/#{m.locale}?" }]
 
 
   attr_accessible :app, :context, :locale, :name, :mime_type, :result, :lock_version, :usage, 

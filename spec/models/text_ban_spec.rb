@@ -17,10 +17,7 @@ describe Text do
 
 
   it "should trigger seven BANs when updated" do
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts?")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE?")
+    Api.stub(:call_p)
    	m = create :text, app: "foo_app", locale: "sv-SE"
   	m.result = "Zalagadoola"
     Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts/#{m.id}$")
@@ -35,10 +32,7 @@ describe Text do
 
 
   it "should trigger seven BANs when touched" do
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts?")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE?")
+    Api.stub(:call_p)
   	m = create :text, app: "foo_app", locale: "sv-SE"
     Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts/#{m.id}$")
     Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts/#{m.id}?")
@@ -52,10 +46,7 @@ describe Text do
 
 
   it "should trigger seven BANs when destroyed" do
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts?")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE$")
-    Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/dictionaries/app/foo_app/locale/sv-SE?")
+    Api.stub(:call_p)
   	m = create :text, app: "foo_app", locale: "sv-SE"
     Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts/#{m.id}$")
     Api.should_receive(:call_p).once.with("http://127.0.0.1", :ban, "/v1/texts/#{m.id}?")

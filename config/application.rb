@@ -39,10 +39,6 @@ module Cms
     # Custom directories with classes and modules you want to be autoloadable.
     #config.autoload_paths += %W(#{config.root}/lib)
 
-    # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = [:text_observer]
-
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
