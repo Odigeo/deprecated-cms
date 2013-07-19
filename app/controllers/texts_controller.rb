@@ -14,7 +14,6 @@ class TextsController < ApplicationController
     expires_in 0, 's-maxage' => 30.minutes
     if stale?(collection_etag(Text))
       texts = Text.index(params, params[:group], params[:search])
-      #render partial: "text", collection: texts
       api_render texts
     end
   end
@@ -24,7 +23,6 @@ class TextsController < ApplicationController
   def show
     expires_in 0, 's-maxage' => 30.minutes
     if stale?(@text)
-      #render partial: "text", object: @text
       api_render @text
     end
   end
@@ -64,7 +62,6 @@ class TextsController < ApplicationController
       return
     end
     if @text.valid?
-      #render partial: "text", object: @text
       api_render @text
     else
       render_validation_errors(@text)
