@@ -3,6 +3,8 @@ require 'spec_helper'
 describe TextsController do
   
   describe "INDEX" do
+
+    render_views
     
     before :each do
       Api.stub(:permitted?).and_return(double(:status => 200, 
@@ -45,7 +47,15 @@ describe TextsController do
     it "should return a 200 when successful" do
       get :index
       response.status.should == 200
+      response.should render_template(partial: "_text", count: 3)
     end
+
+    it "should return a collection" do
+      get :index
+      response.status.should == 200
+      JSON.parse(response.body).should be_an Array
+    end
+
 
     it "should set @auth_api_user_id if successful" do
       get :index
