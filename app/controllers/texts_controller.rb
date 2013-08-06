@@ -40,7 +40,7 @@ class TextsController < ApplicationController
         render json: {_api_error: ["Text already exists"]}, :status => 422 
         return
       end
-      render_new_resource @text, partial: "texts/text"
+      api_render @text, new: true
     else
       render_validation_errors @text
     end
