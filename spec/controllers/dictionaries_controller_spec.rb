@@ -6,8 +6,7 @@ describe DictionariesController do
   
   before :each do
     Text.delete_all
-    Api.stub(:permitted?).and_return(double(:status => 200, 
-                                             :body => {'authentication' => {'user_id' => 123}}))
+    permit_with 200
     create(:text, app: "webapp_tab_1", context: "payment", name: "foo", locale: "sv-SE", result: "En liten foo", markdown: true)
     create(:text, app: "webapp_tab_1", context: "payment", name: "foo", locale: "no-NO", result: "Ein litta foo")
     create(:text, app: "webapp_tab_1", context: "payment", name: "foo", locale: "en-US", result: "A little foo")

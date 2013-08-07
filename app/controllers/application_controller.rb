@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
     response = Api.permitted?(@x_api_token, query: qs)                                   
     if response.status == 200
       @auth_api_user_id = response.body['authentication']['user_id']
+      @auth_api_user_uri = response.body['authentication']['_links']['creator']['href']  # Keep
       return true
     end
     error_messages = response.body['_api_error']
