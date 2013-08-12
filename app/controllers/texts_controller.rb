@@ -13,8 +13,7 @@ class TextsController < ApplicationController
   def index
     expires_in 0, 's-maxage' => 30.minutes
     if stale?(collection_etag(Text))
-      texts = Text.index(params, params[:group], params[:search])
-      api_render texts
+      api_render Text.collection(params)
     end
   end
 

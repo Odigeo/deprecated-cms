@@ -183,7 +183,7 @@ describe Text do
     end
   end
   
-  describe ".index" do
+  describe ".collection" do
     
     before :each do
       create :text, app: 'foo', context: 'alfa', name: 'ett',  locale: 'sv-SE', result: 'woo hoo'
@@ -202,64 +202,64 @@ describe Text do
     end
     
     it "should allow matches on app" do
-      Text.index(app: 'NOWAI').length.should == 0
-      Text.index(app: 'foo').length.should == 4
-      Text.index(app: 'bar').length.should == 3
+      Text.collection(app: 'NOWAI').length.should == 0
+      Text.collection(app: 'foo').length.should == 4
+      Text.collection(app: 'bar').length.should == 3
     end
     
     it "should allow matches on context" do
-      Text.index(context: 'NOWAI').length.should == 0
-      Text.index(context: 'alfa').length.should == 3
-      Text.index(context: 'beta').length.should == 1
-      Text.index(context: 'zoo').length.should == 2
-      Text.index(context: 'xux').length.should == 1
+      Text.collection(context: 'NOWAI').length.should == 0
+      Text.collection(context: 'alfa').length.should == 3
+      Text.collection(context: 'beta').length.should == 1
+      Text.collection(context: 'zoo').length.should == 2
+      Text.collection(context: 'xux').length.should == 1
     end
     
     it "should allow matches on name" do
-      Text.index(name: 'NOWAI').length.should == 0
-      Text.index(name: 'ett').length.should == 3
-      Text.index(name: 'gokk').length.should == 4
+      Text.collection(name: 'NOWAI').length.should == 0
+      Text.collection(name: 'ett').length.should == 3
+      Text.collection(name: 'gokk').length.should == 4
     end
     
     it "should allow matches on locale" do
-      Text.index(locale: 'NOWAI').length.should == 0
-      Text.index(locale: 'sv-SE').length.should == 3
-      Text.index(locale: 'no-NO').length.should == 1
-      Text.index(locale: 'da-DK').length.should == 1
-      Text.index(locale: 'en-GB').length.should == 2
+      Text.collection(locale: 'NOWAI').length.should == 0
+      Text.collection(locale: 'sv-SE').length.should == 3
+      Text.collection(locale: 'no-NO').length.should == 1
+      Text.collection(locale: 'da-DK').length.should == 1
+      Text.collection(locale: 'en-GB').length.should == 2
     end
     
     it "should allow searches on app and context" do
-      Text.index(app: 'bar', context: 'zoo').length.should == 2
-      Text.index(app: 'bar', context: 'xux').length.should == 1
-      Text.index(app: 'bar', context: 'NOWAI').length.should == 0
-      Text.index(app: 'NOWAY', context: 'zoo').length.should == 0
+      Text.collection(app: 'bar', context: 'zoo').length.should == 2
+      Text.collection(app: 'bar', context: 'xux').length.should == 1
+      Text.collection(app: 'bar', context: 'NOWAI').length.should == 0
+      Text.collection(app: 'NOWAY', context: 'zoo').length.should == 0
     end
     
     it "key/value pairs not in the index_only array should quietly be ignored" do
-      Text.index(app: 'foo', aardvark: 12).length.should == 4
+      Text.collection(app: 'foo', aardvark: 12).length.should == 4
     end
     
     
     describe "should permit menu grouping" do
       
       it "to list the existing apps" do
-        media = Text.index({}, :app)
+        media = Text.collection(group: :app)
         media.length.should == 2
       end
       
       it "to give all the contexts in an app" do
-        media = Text.index({app: 'bar'}, :context)
+        media = Text.collection(app: 'bar', group: :context)
         media.length.should == 2
       end
       
       it "to give all the names in an app and context" do
-        media = Text.index({app: 'bar', context: 'zoo'}, :name)
+        media = Text.collection(app: 'bar', context: 'zoo', group: :name)
         media.length.should == 1
       end
       
       it "to list all the locales" do
-        media = Text.index({}, :locale)
+        media = Text.collection(group: :locale)
         media.length.should == 4
       end
       
@@ -269,12 +269,12 @@ describe Text do
     describe "should take a 'search' query arg" do
 
       it "which with no other args should search for the substring in all Texts" do
-        media = Text.index({}, nil, 'oo')
+        media = Text.collection(search: 'oo')
         media.length.should == 3
       end
 
       it "which should further limit other matches" do
-        media = Text.index({context: 'alfa'}, nil, 'oo')
+        media = Text.collection(context: 'alfa', search: 'oo')
         media.length.should == 2
       end
 
