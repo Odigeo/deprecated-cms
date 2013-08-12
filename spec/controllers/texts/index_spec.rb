@@ -61,19 +61,6 @@ describe TextsController do
       response.status.should == 200
       assigns(:auth_api_user_id).should == 123
     end
-
-
-    it "should accept match and search parameters" do
-      Text.should_receive(:index).with(anything, nil, 'ue').and_return([])
-      get :index, app: 'foo', search: 'ue'
-      response.status.should == 200
-    end
-    
-    it "should accept a group parameter" do
-      Text.should_receive(:index).with(anything, 'context', nil).and_return([])
-      get :index, app: 'foo', group: :context
-      response.status.should == 200
-    end
     
   end
   

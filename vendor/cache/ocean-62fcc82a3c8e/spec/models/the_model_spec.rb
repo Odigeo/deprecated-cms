@@ -56,7 +56,7 @@ describe TheModel do
 
   describe "search" do
   
-    describe ".index" do
+    describe ".collection" do
     
       before :each do
         create :the_model, name: 'foo', description: "The Foo the_model"
@@ -66,7 +66,7 @@ describe TheModel do
 
     
       it "should return an array of TheModel instances" do
-        ix = TheModel.index
+        ix = TheModel.collection
         ix.length.should == 3
         ix[0].should be_a TheModel
       end

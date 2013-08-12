@@ -177,12 +177,6 @@ describe Text do
   end
   
   
-  describe ".index_only" do
-    it "should return an array of permitted search query args" do
-      Text.index_only.should be_an Array
-    end
-  end
-  
   describe ".collection" do
     
     before :each do
@@ -196,7 +190,7 @@ describe Text do
     end
     
     it "should return an array of Text instances" do
-      ix = Text.index
+      ix = Text.collection
       ix.length.should == 7
       ix[0].should be_a Text
     end

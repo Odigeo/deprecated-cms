@@ -39,11 +39,6 @@ describe <%= class_name %> do
 
 
   describe "search" do
-    describe ".index_only" do
-      it "should return an array of permitted search query args" do
-        <%= class_name %>.index_only.should be_an Array
-      end
-    end
   
     describe ".collection" do
     
@@ -55,7 +50,7 @@ describe <%= class_name %> do
       
     
       it "should return an array of <%= class_name %> instances" do
-        ix = <%= class_name %>.index
+        ix = <%= class_name %>.collection
         ix.length.should == 3
         ix[0].should be_a <%= class_name %>
       end
