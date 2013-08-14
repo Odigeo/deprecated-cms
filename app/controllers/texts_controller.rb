@@ -31,18 +31,8 @@ class TextsController < ApplicationController
   def create
     @text = Text.new(filtered_params(Text))
     set_updater(@text)
-    if @text.valid?
-      begin
-        @text.save!
-      rescue ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid, 
-             SQLite3::ConstraintException 
-        render json: {_api_error: ["Text already exists"]}, :status => 422 
-        return
-      end
-      api_render @text, new: true
-    else
-      render_validation_errors @text
-    end
+    @text.save!
+    api_render @text, new: true
   end
 
 
@@ -52,19 +42,10 @@ class TextsController < ApplicationController
       render_api_error 422, "Missing resource attributes"
       return
     end
-    begin
-      @text.assign_attributes(filtered_params Text)
-      set_updater(@text)
-      @text.save
-    rescue ActiveRecord::StaleObjectError
-      render_api_error 409, "Stale Text"
-      return
-    end
-    if @text.valid?
-      api_render @text
-    else
-      render_validation_errors(@text)
-    end
+    @text.assign_attributes(filtered_params Text)
+    set_updater(@text)
+    @text.save!
+    api_render @text
   end
 
 
