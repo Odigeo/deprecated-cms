@@ -12,14 +12,20 @@
 #  usage        :string(100)      default("")
 #  result       :text
 #  lock_version :integer          default(0), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  created_at   :datetime
+#  updated_at   :datetime
 #  markdown     :boolean          default(FALSE), not null
 #  html         :text
 #  created_by   :integer
 #  updated_by   :integer
 #
-
+# Indexes
+#
+#  index_texts_on_app_and_locale  (app,locale)
+#  index_texts_on_created_at      (created_at)
+#  index_texts_on_updated_at      (updated_at)
+#  main_index                     (app,context,locale,name) UNIQUE
+#
 
 require 'spec_helper'
 
