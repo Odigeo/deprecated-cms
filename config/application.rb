@@ -69,6 +69,9 @@ module Cms
 
     # Enable the asset pipeline
     config.assets.enabled = false
+
+    # No Rails locales
+    I18n.enforce_available_locales = false
   end
   
 end

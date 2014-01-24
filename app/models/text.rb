@@ -11,21 +11,30 @@
 #  usage        :string(100)      default("")
 #  result       :text
 #  lock_version :integer          default(0), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  created_at   :datetime
+#  updated_at   :datetime
 #  markdown     :boolean          default(FALSE), not null
 #  html         :text
 #  created_by   :integer
 #  updated_by   :integer
 #
+# Indexes
+#
+#  index_texts_on_app_and_locale  (app,locale)
+#  index_texts_on_created_at      (created_at)
+#  index_texts_on_updated_at      (updated_at)
+#  main_index                     (app,context,locale,name) UNIQUE
+#
 
 class Text < ActiveRecord::Base
 
-  ocean_resource_model index: [:app, :context, :name, :locale],
+  ocean_resource_model index:  [:app, :context, :name, :locale, :created_at],
+                       ranged: [:created_at],
                        search: :result,
                        invalidate_member: INVALIDATE_MEMBER_DEFAULT +
                                           [ lambda { |m| "dictionaries/app/#{m.app}/locale/#{m.locale}($|\\?)" } ]
 
+  default_scope -> { order "updated_at ASC" }
 
   attr_accessible :app, :context, :locale, :name, :mime_type, :result, :lock_version, :usage, 
                   :markdown, :html
