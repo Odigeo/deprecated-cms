@@ -51,8 +51,8 @@ class Text < ActiveRecord::Base
                                  }
                                  
   validates :name,    :presence => true,
-                      :format => { :with => /\A[A-Za-z0-9_-]+\z/,
-                                   :message => "may only contain alphanumeric characters, underscores and hyphens"
+                      :format => { :with => /\A[A-Za-z0-9._-]+\z/,
+                                   :message => "may only contain alphanumeric characters, periods, underscores and hyphens"
                                  }
                                  
   validates :mime_type, :presence => true,
