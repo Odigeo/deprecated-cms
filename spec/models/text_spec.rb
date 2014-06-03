@@ -39,7 +39,9 @@ describe Text do
     
     it "app name may only contain alphanumeric characters, underscores and hyphens" do
       build(:text, :app => "blahonga_se").should be_valid
+      build(:text, :app => "blahonga-se").should be_valid
       build(:text, :app => "blahonga.se").should_not be_valid
+      build(:text, :app => "blahonga!se").should_not be_valid
       build(:text, :app => "blahonga se").should_not be_valid
     end
   
@@ -73,6 +75,7 @@ describe Text do
       build(:text, :name => "Ming_Vase-32").should be_valid
       build(:text, :name => "Ming Vase 32").should_not be_valid
       build(:text, :name => "Effing_Åmål").should_not be_valid
+      build(:text, :name => "foo.bar.baz").should be_valid
     end
   
     it "should have a result MIME type" do
