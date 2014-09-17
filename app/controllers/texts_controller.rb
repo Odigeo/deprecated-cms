@@ -11,7 +11,7 @@ class TextsController < ApplicationController
  
   # GET /texts
   def index
-    expires_in 0, 's-maxage' => 30.minutes
+    expires_in 0, 's-maxage' => 1.week
     if stale?(collection_etag(Text))
       api_render Text.collection(params)
     end
@@ -20,7 +20,7 @@ class TextsController < ApplicationController
 
   # GET /texts/1
   def show
-    expires_in 0, 's-maxage' => 30.minutes
+    expires_in 0, 's-maxage' => 1.week
     if stale?(@text)
       api_render @text
     end
