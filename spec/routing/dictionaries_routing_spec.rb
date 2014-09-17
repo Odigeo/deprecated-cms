@@ -1,23 +1,23 @@
 require "spec_helper"
 
-describe DictionariesController do
+describe DictionariesController, :type => :routing do
   describe "routing" do
 
     it "routes GET to #show" do
-      get("/v1/dictionaries/app/blahonga_checkout/locale/sv-SE").should route_to(
+      expect(get("/v1/dictionaries/app/blahonga_checkout/locale/sv-SE")).to route_to(
         "dictionaries#show", app: "blahonga_checkout", locale: "sv-SE")
     end
     
     it "doesn't route POST" do
-      post("/v1/dictionaries/app/foo/locale/sv-SE").should_not be_routable
+      expect(post("/v1/dictionaries/app/foo/locale/sv-SE")).not_to be_routable
     end
 
     it "doesn't route PUT" do
-      put("/v1/dictionaries/app/foo/locale/sv-SE").should_not be_routable
+      expect(put("/v1/dictionaries/app/foo/locale/sv-SE")).not_to be_routable
     end
 
     it "doesn't route DELETE" do
-      delete("/v1/dictionaries/app/foo/locale/sv-SE").should_not be_routable
+      expect(delete("/v1/dictionaries/app/foo/locale/sv-SE")).not_to be_routable
     end
 
   end
