@@ -10,7 +10,7 @@ class DictionariesController < ApplicationController
   # Returns all data within a specific context within an app (e.g., all error messages)
   #
   def show
-    expires_in 1.day, 's-maxage' => 1.day, :public => true
+    expires_in 0, 's-maxage' => 1.week
     if stale?(collection_etag(Text))
       dictionary = {}
       Text.where(app: params[:app], locale: params[:locale]).each do |t|
