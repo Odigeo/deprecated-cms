@@ -29,96 +29,96 @@
 
 require 'spec_helper'
 
-describe Text do
+describe Text, :type => :model do
   
   describe "properties" do
     
     it "should have an app name" do
-      build(:text, :app => nil).should_not be_valid
+      expect(build(:text, :app => nil)).not_to be_valid
     end
     
     it "app name may only contain alphanumeric characters, underscores and hyphens" do
-      build(:text, :app => "blahonga_se").should be_valid
-      build(:text, :app => "blahonga-se").should be_valid
-      build(:text, :app => "blahonga.se").should_not be_valid
-      build(:text, :app => "blahonga!se").should_not be_valid
-      build(:text, :app => "blahonga se").should_not be_valid
+      expect(build(:text, :app => "blahonga_se")).to be_valid
+      expect(build(:text, :app => "blahonga-se")).to be_valid
+      expect(build(:text, :app => "blahonga.se")).not_to be_valid
+      expect(build(:text, :app => "blahonga!se")).not_to be_valid
+      expect(build(:text, :app => "blahonga se")).not_to be_valid
     end
   
     it "should have a context" do
-      build(:text, :context => nil).should_not be_valid
+      expect(build(:text, :context => nil)).not_to be_valid
     end
   
     it "context may only contain alphanumeric characters, underscores and hyphens" do
-      build(:text, :app => "payment").should be_valid
-      build(:text, :app => "payment.process").should_not be_valid
-      build(:text, :app => "payment process").should_not be_valid
+      expect(build(:text, :app => "payment")).to be_valid
+      expect(build(:text, :app => "payment.process")).not_to be_valid
+      expect(build(:text, :app => "payment process")).not_to be_valid
     end
 
     it "should have a locale" do
-      build(:text, :locale => nil).should_not be_valid
+      expect(build(:text, :locale => nil)).not_to be_valid
     end
   
     it "should require the locale to be in the correct ISO format" do
-      build(:text, :locale => 'sv-SE').should be_valid
-      build(:text, :locale => 'sv-SWE').should_not be_valid
-      build(:text, :locale => 'sv').should_not be_valid
-      build(:text, :locale => 'SE').should_not be_valid
-      build(:text, :locale => 'SV-se').should_not be_valid
+      expect(build(:text, :locale => 'sv-SE')).to be_valid
+      expect(build(:text, :locale => 'sv-SWE')).not_to be_valid
+      expect(build(:text, :locale => 'sv')).not_to be_valid
+      expect(build(:text, :locale => 'SE')).not_to be_valid
+      expect(build(:text, :locale => 'SV-se')).not_to be_valid
     end
     
     it "should have a name as key" do
-      build(:text, :name => nil).should_not be_valid
+      expect(build(:text, :name => nil)).not_to be_valid
     end
   
     it "should have a name consisting only of acceptable characters" do
-      build(:text, :name => "Ming_Vase-32").should be_valid
-      build(:text, :name => "Ming Vase 32").should_not be_valid
-      build(:text, :name => "Effing_Åmål").should_not be_valid
-      build(:text, :name => "foo.bar.baz").should be_valid
+      expect(build(:text, :name => "Ming_Vase-32")).to be_valid
+      expect(build(:text, :name => "Ming Vase 32")).not_to be_valid
+      expect(build(:text, :name => "Effing_Åmål")).not_to be_valid
+      expect(build(:text, :name => "foo.bar.baz")).to be_valid
     end
   
     it "should have a result MIME type" do
-      build(:text, :mime_type => nil).should_not be_valid
+      expect(build(:text, :mime_type => nil)).not_to be_valid
     end
   
     it "should have a result MIME type containing a slash" do
-      build(:text, :mime_type => "text/html").should be_valid
-      build(:text, :mime_type => "application").should_not be_valid
+      expect(build(:text, :mime_type => "text/html")).to be_valid
+      expect(build(:text, :mime_type => "application")).not_to be_valid
     end
     
     it "should have an optional usage text field" do
-      build(:text, :usage => "radio_button").should be_valid
-      build(:text, :usage => nil).should be_valid
+      expect(build(:text, :usage => "radio_button")).to be_valid
+      expect(build(:text, :usage => nil)).to be_valid
     end
 
     it "should have a markdown boolean" do
-      build(:text, :markdown => true).should be_valid
+      expect(build(:text, :markdown => true)).to be_valid
     end
 
     it "should have an html field" do
-      build(:text, :html => '<p>Hej!</p>').should be_valid
+      expect(build(:text, :html => '<p>Hej!</p>')).to be_valid
     end
     
   end
   
   it "entries should be unique on app, context, locale, and name" do
     create(:text, app: "foo", context: "bar", locale: 'sv-SE', name: "ze_Key")
-    lambda { create(:text, app: "foo", context: "bar", locale: 'sv-SE', name: "ze_Key") }.
-      should raise_error
-    lambda { create(:text, app: "xuu", context: "bar", locale: 'sv-SE', name: "ze_Key") }.
-      should_not raise_error
-    lambda { create(:text, app: "foo", context: "xuu", locale: 'sv-SE', name: "ze_Key") }.
-      should_not raise_error
-    lambda { create(:text, app: "foo", context: "bar", locale: 'en-GB', name: "ze_Key") }.
-      should_not raise_error
-    lambda { create(:text, app: "foo", context: "bar", locale: 'sv-SE', name: "anozer_Ki") }.
-      should_not raise_error
+    expect { create(:text, app: "foo", context: "bar", locale: 'sv-SE', name: "ze_Key") }.
+      to raise_error
+    expect { create(:text, app: "xuu", context: "bar", locale: 'sv-SE', name: "ze_Key") }.
+      not_to raise_error
+    expect { create(:text, app: "foo", context: "xuu", locale: 'sv-SE', name: "ze_Key") }.
+      not_to raise_error
+    expect { create(:text, app: "foo", context: "bar", locale: 'en-GB', name: "ze_Key") }.
+      not_to raise_error
+    expect { create(:text, app: "foo", context: "bar", locale: 'sv-SE', name: "anozer_Ki") }.
+      not_to raise_error
   end
   
   it "should have a lock_version" do
-    build(:text, :lock_version => 12).should be_valid
-    build(:text, :lock_version => nil).should_not be_valid
+    expect(build(:text, :lock_version => 12)).to be_valid
+    expect(build(:text, :lock_version => nil)).not_to be_valid
   end
 
 
@@ -126,19 +126,19 @@ describe Text do
 
     it "should convert #result to populate the #html attribute when #markdown is true" do
       t = create :text, result: "foo *bar* _baz_", markdown: true
-      t.html.should == "<p>foo <em>bar</em> <em>baz</em></p>\n"
+      expect(t.html).to eq "<p>foo <em>bar</em> <em>baz</em></p>\n"
     end
 
     it "should set #html to nil when #markdown is false" do
       t = create :text, result: "foo *bar* _baz_", markdown: false
-      t.html.should == nil
+      expect(t.html).to eq nil
     end
 
     it "should not allow the #html attribute to be set by the client" do
       t = create :text, result: "blah", html: "<p>Ce n'est pas possible</p>", markdown: false
-      t.html.should == nil
+      expect(t.html).to eq nil
       t = create :text, result: "blah", html: "<p>Ce n'est pas possible</p>", markdown: true
-      t.html.should == "<p>blah</p>\n"
+      expect(t.html).to eq "<p>blah</p>\n"
     end
 
   end
@@ -147,14 +147,14 @@ describe Text do
   describe "static method a_to_nested_hash" do
     
     it "should convert an array to a hash" do
-      Text.a_to_nested_hash([]).should == {}
+      expect(Text.a_to_nested_hash([])).to eq({})
     end
     
     it "should key on name in the outermost hash and have another hash as its value" do
       arr = [create(:text, name: "name1", locale: 'sv-SE')]
       res = Text.a_to_nested_hash(arr)
-      res.size.should == 1
-      res['name1'].should be_a Hash
+      expect(res.size).to eq 1
+      expect(res['name1']).to be_a Hash
     end
     
     it "should collect all locales as keys for the inner hash" do
@@ -162,12 +162,12 @@ describe Text do
              create(:text, name: "name1", locale: 'en-US'),
              create(:text, name: "name1", locale: 'no-NO')]
       res = Text.a_to_nested_hash(arr)
-      res.size.should == 1
+      expect(res.size).to eq 1
       inner = res['name1']
-      inner.size.should == 3
-      inner['sv-SE'].should be_a Text
-      inner['en-US'].should be_a Text
-      inner['no-NO'].should be_a Text
+      expect(inner.size).to eq 3
+      expect(inner['sv-SE']).to be_a Text
+      expect(inner['en-US']).to be_a Text
+      expect(inner['no-NO']).to be_a Text
     end
     
     it "should keep locales of different names apart as expected" do
@@ -178,9 +178,9 @@ describe Text do
              create(:text, name: "name2", locale: 'en-US'),
              create(:text, name: "name2", locale: 'no-NO')]
       res = Text.a_to_nested_hash(arr)
-      res.size.should == 2
-      res['name1']['sv-SE'].result.should == "hey"
-      res['name2']['sv-SE'].result.should == "yo"
+      expect(res.size).to eq 2
+      expect(res['name1']['sv-SE'].result).to eq "hey"
+      expect(res['name2']['sv-SE'].result).to eq "yo"
     end
     
   end
@@ -200,47 +200,47 @@ describe Text do
     
     it "should return an array of Text instances" do
       ix = Text.collection
-      ix.length.should == 7
-      ix[0].should be_a Text
+      expect(ix.length).to eq 7
+      expect(ix[0]).to be_a Text
     end
     
     it "should allow matches on app" do
-      Text.collection(app: 'NOWAI').length.should == 0
-      Text.collection(app: 'foo').length.should == 4
-      Text.collection(app: 'bar').length.should == 3
+      expect(Text.collection(app: 'NOWAI').length).to eq 0
+      expect(Text.collection(app: 'foo').length).to eq 4
+      expect(Text.collection(app: 'bar').length).to eq 3
     end
     
     it "should allow matches on context" do
-      Text.collection(context: 'NOWAI').length.should == 0
-      Text.collection(context: 'alfa').length.should == 3
-      Text.collection(context: 'beta').length.should == 1
-      Text.collection(context: 'zoo').length.should == 2
-      Text.collection(context: 'xux').length.should == 1
+      expect(Text.collection(context: 'NOWAI').length).to eq 0
+      expect(Text.collection(context: 'alfa').length).to eq 3
+      expect(Text.collection(context: 'beta').length).to eq 1
+      expect(Text.collection(context: 'zoo').length).to eq 2
+      expect(Text.collection(context: 'xux').length).to eq 1
     end
     
     it "should allow matches on name" do
-      Text.collection(name: 'NOWAI').length.should == 0
-      Text.collection(name: 'ett').length.should == 3
-      Text.collection(name: 'gokk').length.should == 4
+      expect(Text.collection(name: 'NOWAI').length).to eq 0
+      expect(Text.collection(name: 'ett').length).to eq 3
+      expect(Text.collection(name: 'gokk').length).to eq 4
     end
     
     it "should allow matches on locale" do
-      Text.collection(locale: 'NOWAI').length.should == 0
-      Text.collection(locale: 'sv-SE').length.should == 3
-      Text.collection(locale: 'no-NO').length.should == 1
-      Text.collection(locale: 'da-DK').length.should == 1
-      Text.collection(locale: 'en-GB').length.should == 2
+      expect(Text.collection(locale: 'NOWAI').length).to eq 0
+      expect(Text.collection(locale: 'sv-SE').length).to eq 3
+      expect(Text.collection(locale: 'no-NO').length).to eq 1
+      expect(Text.collection(locale: 'da-DK').length).to eq 1
+      expect(Text.collection(locale: 'en-GB').length).to eq 2
     end
     
     it "should allow searches on app and context" do
-      Text.collection(app: 'bar', context: 'zoo').length.should == 2
-      Text.collection(app: 'bar', context: 'xux').length.should == 1
-      Text.collection(app: 'bar', context: 'NOWAI').length.should == 0
-      Text.collection(app: 'NOWAY', context: 'zoo').length.should == 0
+      expect(Text.collection(app: 'bar', context: 'zoo').length).to eq 2
+      expect(Text.collection(app: 'bar', context: 'xux').length).to eq 1
+      expect(Text.collection(app: 'bar', context: 'NOWAI').length).to eq 0
+      expect(Text.collection(app: 'NOWAY', context: 'zoo').length).to eq 0
     end
     
     it "key/value pairs not in the index_only array should quietly be ignored" do
-      Text.collection(app: 'foo', aardvark: 12).length.should == 4
+      expect(Text.collection(app: 'foo', aardvark: 12).length).to eq 4
     end
     
     
@@ -248,22 +248,22 @@ describe Text do
       
       it "to list the existing apps" do
         media = Text.collection(group: :app)
-        media.length.should == 2
+        expect(media.length).to eq 2
       end
       
       it "to give all the contexts in an app" do
         media = Text.collection(app: 'bar', group: :context)
-        media.length.should == 2
+        expect(media.length).to eq 2
       end
       
       it "to give all the names in an app and context" do
         media = Text.collection(app: 'bar', context: 'zoo', group: :name)
-        media.length.should == 1
+        expect(media.length).to eq 1
       end
       
       it "to list all the locales" do
         media = Text.collection(group: :locale)
-        media.length.should == 4
+        expect(media.length).to eq 4
       end
       
     end
@@ -273,12 +273,12 @@ describe Text do
 
       it "which with no other args should search for the substring in all Texts" do
         media = Text.collection(search: 'oo')
-        media.length.should == 3
+        expect(media.length).to eq 3
       end
 
       it "which should further limit other matches" do
         media = Text.collection(context: 'alfa', search: 'oo')
-        media.length.should == 2
+        expect(media.length).to eq 2
       end
 
     end

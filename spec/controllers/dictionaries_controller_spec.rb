@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DictionariesController do
+describe DictionariesController, :type => :controller do
   
   render_views
   
@@ -24,12 +24,12 @@ describe DictionariesController do
     
     it "should have an ETag header" do
       get :show, app: "webapp_tab_1", locale: "sv-SE"
-      response.header['ETag'].should_not be_nil
+      expect(response.header['ETag']).not_to be_nil
     end
 
     it "should not have an Last-Modified header" do
       get :show, app: "webapp_tab_1", locale: "sv-SE"
-      response.header['Last-Modified'].should be_nil
+      expect(response.header['Last-Modified']).to be_nil
     end 
     
 
@@ -37,28 +37,28 @@ describe DictionariesController do
 
       before :each do
         get :show, app: "webapp_tab_1", locale: "sv-SE"
-        response.status.should be(200)
+        expect(response.status).to be(200)
         @d = JSON.parse(response.body)
       end
     
       it "a JSON hash" do
-        @d.should be_a Hash      
+        expect(@d).to be_a Hash      
       end
 
       it "the contexts as top level keys" do
-        @d.size.should == 2
-        @d['payment'].should_not == nil
-        @d['checkout'].should_not == nil
+        expect(@d.size).to eq 2
+        expect(@d['payment']).not_to eq nil
+        expect(@d['checkout']).not_to eq nil
       end
 
       it "the names as hashes for the top level context keys" do
-        @d['payment'].should be_a Hash
-        @d['checkout'].should be_a Hash
+        expect(@d['payment']).to be_a Hash
+        expect(@d['checkout']).to be_a Hash
       end
 
       it "each name/value pair in the appropriate context hash, using the #html attribute where appropriate" do
-        @d['payment'].should == {"foo"=>"<p>En liten foo</p>\n", "bar"=>"En liten bar"}
-        @d['checkout'].should == {"baz"=>"En liten baz"}
+        expect(@d['payment']).to eq({"foo"=>"<p>En liten foo</p>\n", "bar"=>"En liten bar"})
+        expect(@d['checkout']).to eq({"baz"=>"En liten baz"})
       end
 
     end

@@ -15,7 +15,7 @@ gem 'kramdown'
 group :test, :development do
   gem "sqlite3"            # Dev+testing+CI (staging and production use mySQL)
   gem 'memory_test_fix'    # Makes SQLite run in memory for speed
-  gem "rspec-rails", "~> 2.0"
+  gem "rspec-rails"
   gem "simplecov", :require => false
   gem "factory_girl_rails", "~> 4.0"
   gem "immigrant"
