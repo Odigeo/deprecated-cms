@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140108024725) do
+ActiveRecord::Schema.define(version: 20141022200455) do
 
   create_table "texts", force: true do |t|
     t.string   "app",          limit: 100
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20140108024725) do
   end
 
   add_index "texts", ["app", "context", "locale", "name"], name: "main_index", unique: true
+  add_index "texts", ["app", "context", "locale"], name: "index_texts_on_app_and_context_and_locale"
   add_index "texts", ["app", "locale"], name: "index_texts_on_app_and_locale"
   add_index "texts", ["created_at"], name: "index_texts_on_created_at"
   add_index "texts", ["updated_at"], name: "index_texts_on_updated_at"
