@@ -21,10 +21,11 @@
 #
 # Indexes
 #
-#  index_texts_on_app_and_locale  (app,locale)
-#  index_texts_on_created_at      (created_at)
-#  index_texts_on_updated_at      (updated_at)
-#  main_index                     (app,context,locale,name) UNIQUE
+#  index_texts_on_app_and_context_and_locale_and_updated_at  (app,context,locale,updated_at)
+#  index_texts_on_app_and_locale_and_updated_at              (app,locale,updated_at)
+#  index_texts_on_created_at                                 (created_at)
+#  index_texts_on_updated_at                                 (updated_at)
+#  main_index                                                (app,context,locale,name) UNIQUE
 #
 
 require 'spec_helper'
