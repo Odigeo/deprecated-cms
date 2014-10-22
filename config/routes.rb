@@ -9,10 +9,6 @@ Cms::Application.routes.draw do
       end
     end
 
-    get "/dictionaries/app/:app/locale/:locale" => "dictionaries#show",
-        :constraints => {:app => /.*/, :locale => /.*/}
-
-
   end
 
 end
