@@ -1,13 +1,12 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 4.0"
-gem "ocean-rails", ">= 2.11.2"
+gem "rails", "4.1.9"
+gem "ocean-rails"
 
 gem 'pg'             # PostgreSQL
 gem 'foreigner'      # Foreign key constraints in MySQL, PostgreSQL, and SQLite3.
 
 gem 'jbuilder'			 # We use Jbuilder to render our JSON responses
-gem 'oj'
 
 gem 'kramdown'
 
