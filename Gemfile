@@ -6,7 +6,9 @@ gem "ocean-rails"
 gem 'pg'             # PostgreSQL
 gem 'foreigner'      # Foreign key constraints in MySQL, PostgreSQL, and SQLite3.
 
-gem 'jbuilder'			 # We use Jbuilder to render our JSON responses
+gem 'oj'
+gem 'oj_mimic_json'
+gem "jbuilder"
 
 gem 'kramdown'
 
