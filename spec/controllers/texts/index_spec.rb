@@ -73,7 +73,13 @@ describe TextsController, :type => :controller do
     it "should be public" do
       get :index
       expect(response.status).to eq 200
-      expect(response.headers['Cache-Control']).to match "public"
+      expect(response.headers['Cache-Control']).to include "public"
+    end
+    
+    it "should be cached in Varnish for a month" do
+      get :index
+      expect(response.status).to eq 200
+      expect(response.headers['Cache-Control']).to include "s-maxage=2592000"
     end
     
   end
