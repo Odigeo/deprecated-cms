@@ -69,6 +69,12 @@ describe TextsController, :type => :controller do
       expect(response.status).to eq 200
       expect(assigns(:auth_api_user_id)).to eq 123
     end
+
+    it "should be public" do
+      get :index
+      expect(response.status).to eq 200
+      expect(response.headers['Cache-Control']).to match "public"
+    end
     
   end
   

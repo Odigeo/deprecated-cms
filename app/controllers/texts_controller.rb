@@ -11,7 +11,7 @@ class TextsController < ApplicationController
  
   # GET /texts
   def index
-    expires_in 0, 's-maxage' => 1.week
+    expires_in 0, 's-maxage' => 1.week, public: true
     if stale?(collection_etag(Text))
       api_render Text.collection(params)
     end
