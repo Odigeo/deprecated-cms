@@ -2,8 +2,6 @@ class TextsController < ApplicationController
 
   ocean_resource_controller extra_actions: {},
                             required_attributes: [:lock_version, :app, :context, :name, :locale]
-
-  respond_to :json
   
   before_action :find_text, :only => [:show, :update, :destroy]
   
